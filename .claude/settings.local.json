@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python3 -m pip install graphifyy -q 2>&1 | Select-Object -Last 5)",
+      "PowerShell($py = Get-Command python.exe | Select-Object -ExpandProperty Source; & $py -m pip install graphifyy -q 2>&1 | Select-Object -Last 5)"
+    ]
+  }
+}

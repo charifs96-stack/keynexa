@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- Premium diamond/gem shape for KeyNexa -->
+  <polygon points="96,12 144,96 96,180 48,96" fill="#000000" stroke="#000000" stroke-width="2"/>
+  <polygon points="96,12 144,96 96,180 48,96" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+</svg>
