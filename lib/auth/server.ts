@@ -85,6 +85,7 @@ export async function registerCustomer(
     const supabase = await createServerSupabaseClient();
 
     // Attempt to sign up
+    console.log("[registerCustomer] Signing up:", email.toLowerCase().trim());
     const { data, error } = await supabase.auth.signUp({
       email: email.toLowerCase().trim(),
       password,
@@ -92,10 +93,12 @@ export async function registerCustomer(
         data: {
           full_name: fullName.trim(),
         },
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
       },
     });
 
     if (error) {
+      console.error("[registerCustomer] signUp error:", error);
       // Handle specific error cases
       if (error.message.includes("already registered")) {
         return {
@@ -105,18 +108,28 @@ export async function registerCustomer(
         };
       }
 
-      console.error("Signup error:", error);
+      // Check for email confirmation required
+      if (error.message.includes("Email not confirmed") || error.message.includes("confirm")) {
+        return {
+          success: false,
+          error: "Please check your email to confirm your account before logging in",
+          code: "EMAIL_NOT_CONFIRMED",
+        };
+      }
+
       return {
         success: false,
-        error: "Registration failed. Please try again.",
+        error: `Registration failed: ${error.message || "Please try again."}`,
         code: "SIGNUP_ERROR",
       };
     }
 
+    console.log("[registerCustomer] SignUp success:", data);
+
     if (!data.user) {
       return {
         success: false,
-        error: "Registration failed",
+        error: "Registration failed - no user data returned",
         code: "SIGNUP_ERROR",
       };
     }
@@ -172,12 +185,14 @@ export async function loginCustomer(
     const supabase = await createServerSupabaseClient();
 
     // Attempt to sign in
+    console.log("[loginCustomer] Signing in:", email.toLowerCase().trim());
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.toLowerCase().trim(),
       password,
     });
 
     if (error) {
+      console.error("[loginCustomer] signIn error:", error);
       // Handle specific error cases
       if (
         error.message.includes("Invalid login credentials") ||
@@ -190,13 +205,14 @@ export async function loginCustomer(
         };
       }
 
-      console.error("Login error:", error);
       return {
         success: false,
-        error: "Login failed. Please try again.",
+        error: `Login failed: ${error.message || "Please try again."}`,
         code: "LOGIN_ERROR",
       };
     }
+
+    console.log("[loginCustomer] Login success:", data);
 
     if (!data.user) {
       return {

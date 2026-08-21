@@ -4,6 +4,8 @@
 
 "use client";
 
+import { useRef } from "react";
+
 interface FormContainerProps {
   children: React.ReactNode;
   title: string;
@@ -21,7 +23,12 @@ export function FormContainer({
   submitButtonText = "Submit",
   isLoading = false,
 }: FormContainerProps) {
-  async function handleSubmit(formData: FormData) {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     await onSubmit(formData);
   }
 
@@ -36,7 +43,7 @@ export function FormContainer({
             <p className="text-gray-600 dark:text-gray-400 mb-8">{subtitle}</p>
           )}
 
-          <form action={handleSubmit} className="space-y-6">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
             {children}
 
             <button
