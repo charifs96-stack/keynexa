@@ -7,7 +7,8 @@
       "Bash(npx tsc *)",
       "Bash(git add *)",
       "Bash(git commit -m 'Add Step 4 summary document and quick reference *)",
-      "Bash(git commit -m 'Add final delivery summary answering all Requirement 26 questions *)"
+      "Bash(git commit -m 'Add final delivery summary answering all Requirement 26 questions *)",
+      "Bash(git commit -m 'Step 5: Implement production-ready customer authentication *)"
     ]
   }
 }
