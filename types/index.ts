@@ -18,6 +18,16 @@ export interface Product {
   updatedAt?: Date;
 }
 
+/**
+ * Product image metadata stored in storage
+ */
+export interface ProductImage {
+  fileName: string;
+  publicUrl: string;
+  path: string;
+  uploadedAt: string;
+}
+
 export interface Category {
   id: string;
   name: string;
